@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thudzamendes Fitness</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --ink: #17150f;
+  --ink-2: #26231b;
+  --bg: #f6f2ea;
+  --surface: #fffdf9;
+  --text: #1d1b16;
+  --muted: #7d7467;
+  --border: #e6dfd0;
+  --gold: #b08d4c;
+  --gold-soft: #d8c293;
+  --paid: #2f6b52;
+  --paid-bg: #e6f0ea;
+  --unpaid: #8f2d2d;
+  --unpaid-bg: #f7e6e4;
+  --serif: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 14px;
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: inherit; }
+html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font: 14.5px/1.5 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+
+/* Header */
+.brand {
+  background: linear-gradient(180deg, var(--ink-2), var(--ink));
+  color: var(--gold-soft);
+  padding: 28px 20px 24px;
+  text-align: center;
+  border-bottom: 1px solid var(--gold);
+}
+.brand .wordmark {
+  font: 700 30px/1 var(--serif); letter-spacing: 0.18em; text-transform: uppercase; color: #e9d8ab; margin: 0;
+}
+.brand .tagline {
+  margin-top: 8px; font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold);
+}
+.brand .rule { width: 56px; height: 1px; background: var(--gold); margin: 14px auto 0; }
+
+main { max-width: 1120px; margin: 0 auto; padding: 24px 16px 40px; display: grid; gap: 22px; }
+
+.topbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+h2 {
+  font: 600 22px/1.2 var(--serif); margin: 0 0 14px; letter-spacing: 0.01em;
+}
+.eyebrow { font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.monthpick { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+.actions-top { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; min-width: 0; box-shadow: 0 1px 2px rgba(23,21,15,.04), 0 8px 24px -16px rgba(23,21,15,.12);
+}
+
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; }
+.stat { position: relative; overflow: hidden; }
+.stat::after { content: ""; position: absolute; left: 20px; right: 20px; bottom: 0; height: 2px; background: var(--gold-soft); }
+.stat .label { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.stat .value { font: 600 34px/1.1 var(--serif); margin-top: 6px; }
+.stat.paid .value { color: var(--paid); }
+.stat.unpaid .value { color: var(--unpaid); }
+
+/* Controls */
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 16px; }
+.filters { display: inline-flex; border: 1px solid var(--border); border-radius: 999px; padding: 3px; background: var(--bg); }
+.filters button {
+  background: none; color: var(--muted); border: 0; padding: 7px 16px; border-radius: 999px;
+  font-size: 13px; letter-spacing: 0.02em;
+}
+.filters button.active { background: var(--ink); color: var(--gold-soft); }
+input, select {
+  font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border);
+  border-radius: 10px; padding: 9px 12px; min-width: 0; transition: border-color .15s, box-shadow .15s;
+}
+input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(176,141,76,.18); }
+#search { flex: 1; min-width: 180px; }
+input[type="month"] { font-size: 13px; }
+button {
+  font: inherit; cursor: pointer; background: var(--ink); color: var(--gold-soft); border: 1px solid var(--ink);
+  border-radius: 10px; padding: 9px 16px; letter-spacing: 0.02em; transition: background .15s, color .15s;
+}
+button:hover { background: var(--ink-2); }
+button.ghost { background: transparent; color: var(--ink); border: 1px solid var(--border); }
+button.ghost:hover { border-color: var(--gold); color: var(--ink); background: transparent; }
+button.danger { background: transparent; color: var(--unpaid); border: 1px solid transparent; }
+button.danger:hover { background: var(--unpaid-bg); }
+button.small { padding: 6px 12px; font-size: 12.5px; }
+button.gold { background: var(--gold); border-color: var(--gold); color: #fff; }
+button.gold:hover { background: #9a7a3d; }
+
+/* Table */
+.table-wrap { overflow-x: auto; margin: 0 -4px; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: 14px 10px; border-bottom: 1px solid var(--border); vertical-align: middle; white-space: nowrap; }
+th { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+tbody tr:hover { background: #faf7f0; }
+tbody tr:last-child td { border-bottom: 0; }
+td strong { font: 600 17px/1.2 var(--serif); letter-spacing: 0.01em; }
+td.actions { text-align: right; }
+td.actions button { margin-left: 6px; }
+.muted { color: var(--muted); font-size: 12.5px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 4px 11px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.04em;
+}
+.badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.badge.paid { background: var(--paid-bg); color: var(--paid); }
+.badge.unpaid { background: var(--unpaid-bg); color: var(--unpaid); }
+.fee { font-variant-numeric: tabular-nums; }
+.empty { text-align: center; color: var(--muted); padding: 36px 0 12px; margin: 0; font-family: var(--serif); font-size: 18px; font-style: italic; }
+
+/* Lower panels */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+@media (max-width: 800px) { .grid2 { grid-template-columns: 1fr; } }
+.form { display: grid; gap: 12px; }
+.form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 480px) { .form .row { grid-template-columns: 1fr; } }
+.form label { display: grid; gap: 6px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+.form button { justify-self: start; margin-top: 4px; }
+
+.list { list-style: none; margin: 0; padding: 0; display: grid; max-height: 440px; overflow-y: auto; }
+.list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.list li:last-child { border-bottom: 0; }
+.list .name { font: 600 16px/1.2 var(--serif); }
+
+.note { font-size: 12.5px; color: var(--muted); margin: 12px 0 0; }
+
+footer { text-align: center; color: var(--muted); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; padding: 8px 0 24px; }
+</style>
+</head>
+<body>
+
+<header class="brand">
+  <h1 class="wordmark">Thudzamendes</h1>
+  <div class="tagline">Fitness · Membership &amp; Payments</div>
+  <div class="rule"></div>
+</header>
+
+<main>
+  <div class="topbar">
+    <div class="eyebrow">Monthly ledger</div>
+    <div class="actions-top">
+      <button class="ghost small" id="backupBtn">Download backup</button>
+      <button class="ghost small" id="restoreBtn">Restore backup</button>
+      <input type="file" id="restoreFile" accept=".json,application/json" hidden>
+    </div>
+    <label class="monthpick">Month <input type="month" id="month"></label>
+  </div>
+
+  <section class="stats" id="stats"></section>
+
+  <section class="card">
+    <div class="toolbar">
+      <div class="filters">
+        <button data-f="all" class="active">All</button>
+        <button data-f="unpaid">Unpaid</button>
+        <button data-f="paid">Paid</button>
+      </div>
+      <input type="search" id="search" placeholder="Search by name or phone">
+      <button class="ghost" id="copyUnpaid">Copy unpaid list</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Member</th><th>Plan</th><th>Monthly fee</th><th>Status</th><th>Last paid</th><th></th></tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <p class="empty" id="empty" hidden></p>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <div class="eyebrow">New</div>
+      <h2>Enrol a member</h2>
+      <form class="form" id="addForm">
+        <label>Full name<input name="name" required></label>
+        <div class="row">
+          <label>Phone<input name="phone"></label>
+          <label>Monthly fee<input name="fee" type="number" min="0" step="0.01" required></label>
+        </div>
+        <label>Plan<input name="plan" placeholder="e.g. Monthly, Premium, Student"></label>
+        <button type="submit" class="gold">Add member</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="eyebrow">Ledger</div>
+      <h2>Payment history</h2>
+      <ul class="list" id="history"></ul>
+    </section>
+  </div>
+</main>
+
+<footer>Thudzamendes Fitness</footer>
+
+<script>
+const KEY = "gym-payments-v1";
+const $ = s => document.querySelector(s);
+
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY));
+    return d && Array.isArray(d.members) && Array.isArray(d.payments) ? d : { members: [], payments: [] };
+  } catch (e) { return { members: [], payments: [] }; }
+}
+function save() {
+  try { localStorage.setItem(KEY, JSON.stringify(db)); }
+  catch (e) { alert("Could not save data in this browser."); }
+}
+
+let db = load();
+let month = new Date().toLocaleDateString("en-CA").slice(0, 7);
+let filter = "all";
+let search = "";
+
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const money = n => "$" + Number(n || 0).toFixed(2);
+const thisMonth = () => new Date().toLocaleDateString("en-CA").slice(0, 7);
+const today = () => new Date().toLocaleDateString("en-CA");
+const fmtMonth = m => { const [y, mo] = m.split("-"); return new Date(y, mo - 1, 1).toLocaleString(undefined, { month: "long", year: "numeric" }); };
+const paymentFor = (id, m) => db.payments.find(p => p.memberId === id && p.forMonth === m);
+const lastPayment = id => db.payments.filter(p => p.memberId === id).sort((a, b) => b.paidOn.localeCompare(a.paidOn))[0];
+const unpaidMembers = () => db.members.filter(m => !paymentFor(m.id, month));
+
+function renderStats() {
+  const unpaid = unpaidMembers();
+  const paidCount = db.members.length - unpaid.length;
+  const collected = db.payments.filter(p => p.forMonth === month).reduce((s, p) => s + Number(p.amount), 0);
+  const outstanding = unpaid.reduce((s, m) => s + Number(m.fee), 0);
+  $("#stats").innerHTML = `
+    <div class="card stat"><div class="label">Members</div><div class="value">${db.members.length}</div></div>
+    <div class="card stat paid"><div class="label">Paid</div><div class="value">${paidCount}</div></div>
+    <div class="card stat unpaid"><div class="label">Not yet paid</div><div class="value">${unpaid.length}</div></div>
+    <div class="card stat"><div class="label">Collected</div><div class="value">${money(collected)}</div></div>
+    <div class="card stat unpaid"><div class="label">Outstanding</div><div class="value">${money(outstanding)}</div></div>`;
+}
+
+function renderRows() {
+  const q = search.trim().toLowerCase();
+  const rows = db.members
+    .map(m => ({ m, pay: paymentFor(m.id, month) }))
+    .filter(x => !q || x.m.name.toLowerCase().includes(q) || (x.m.phone || "").includes(q))
+    .filter(x => filter === "all" || (filter === "paid") === !!x.pay)
+    .sort((a, b) => (!!a.pay) - (!!b.pay) || a.m.name.localeCompare(b.m.name));
+
+  $("#rows").innerHTML = rows.map(({ m, pay }) => {
+    const lp = lastPayment(m.id);
+    return `<tr>
+      <td><strong>${esc(m.name)}</strong><div class="muted">${esc(m.phone || "")}</div></td>
+      <td>${esc(m.plan || "—")}</td>
+      <td class="fee">${money(m.fee)}</td>
+      <td><span class="badge ${pay ? "paid" : "unpaid"}">${pay ? "Paid" : "Unpaid"}</span></td>
+      <td>${lp ? esc(lp.paidOn) : '<span class="muted">Never</span>'}</td>
+      <td class="actions">
+        ${pay
+          ? `<button class="ghost small" data-act="unpay" data-id="${m.id}">Undo</button>`
+          : `<button class="small gold" data-act="pay" data-id="${m.id}">Mark paid</button>`}
+        <button class="danger small" data-act="del" data-id="${m.id}">Remove</button>
+      </td>
+    </tr>`;
+  }).join("");
+
+  const empty = $("#empty");
+  empty.hidden = rows.length > 0;
+  empty.textContent = db.members.length ? "No members match this view." : "No members yet. Enrol your first member below.";
+}
+
+function renderHistory() {
+  const items = db.payments.slice().sort((a, b) => b.paidOn.localeCompare(a.paidOn)).slice(0, 100);
+  $("#history").innerHTML = items.map(p => {
+    const m = db.members.find(x => x.id === p.memberId);
+    return `<li>
+      <div><div class="name">${esc(m ? m.name : "Former member")}</div>
+      <div class="muted">${esc(fmtMonth(p.forMonth))} · paid ${esc(p.paidOn)} · ${money(p.amount)}</div></div>
+      <button class="danger small" data-hid="${p.id}">Remove</button>
+    </li>`;
+  }).join("") || '<li class="muted">No payments recorded yet.</li>';
+}
+
+function render() {
+  $("#month").value = month;
+  renderStats();
+  renderRows();
+  renderHistory();
+}
+
+$("#month").addEventListener("change", e => { month = e.target.value || thisMonth(); render(); });
+$("#search").addEventListener("input", e => { search = e.target.value; renderRows(); });
+
+document.querySelectorAll(".filters button").forEach(btn => btn.addEventListener("click", () => {
+  filter = btn.dataset.f;
+  document.querySelectorAll(".filters button").forEach(b => b.classList.toggle("active", b === btn));
+  renderRows();
+}));
+
+$("#rows").addEventListener("click", e => {
+  const b = e.target.closest("button[data-act]");
+  if (!b) return;
+  const id = b.dataset.id;
+  const m = db.members.find(x => x.id === id);
+  if (!m) return;
+  if (b.dataset.act === "pay") {
+    db.payments.push({ id: uid(), memberId: id, amount: Number(m.fee), paidOn: today(), forMonth: month });
+  } else if (b.dataset.act === "unpay") {
+    db.payments = db.payments.filter(p => !(p.memberId === id && p.forMonth === month));
+  } else if (b.dataset.act === "del") {
+    if (!confirm(`Remove ${m.name} and all their payments?`)) return;
+    db.members = db.members.filter(x => x.id !== id);
+    db.payments = db.payments.filter(p => p.memberId !== id);
+  }
+  save();
+  render();
+});
+
+$("#history").addEventListener("click", e => {
+  const b = e.target.closest("button[data-hid]");
+  if (!b) return;
+  db.payments = db.payments.filter(p => p.id !== b.dataset.hid);
+  save();
+  render();
+});
+
+$("#copyUnpaid").addEventListener("click", async () => {
+  const unpaid = unpaidMembers();
+  if (!unpaid.length) { alert("Every member has paid for " + fmtMonth(month) + "."); return; }
+  const text = `Thudzamendes Fitness - outstanding for ${fmtMonth(month)}:\n` +
+    unpaid.map(m => `${m.name} - ${m.phone || "no phone"} - ${money(m.fee)}`).join("\n");
+  try { await navigator.clipboard.writeText(text); alert("Copied to clipboard."); }
+  catch (e) { alert(text); }
+});
+
+$("#addForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  db.members.push({
+    id: uid(),
+    name: String(f.get("name")).trim(),
+    phone: String(f.get("phone") || "").trim(),
+    plan: String(f.get("plan") || "").trim(),
+    fee: Number(f.get("fee")) || 0,
+    joined: today()
+  });
+  save();
+  e.target.reset();
+  filter = "all"; search = ""; $("#search").value = "";
+  document.querySelectorAll(".filters button").forEach(b => b.classList.toggle("active", b.dataset.f === "all"));
+  render();
+});
+
+/* ---------- Backup & restore ---------- */
+let downloadsApi = null;
+if (window.claude && typeof window.claude.use === "function") {
+  window.claude.use("downloads").then(api => { downloadsApi = api; }).catch(() => {});
+}
+
+$("#backupBtn").addEventListener("click", async () => {
+  const payload = JSON.stringify({
+    app: "thudzamendes-fitness",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    data: db
+  }, null, 2);
+  const filename = `Thudzamendes_Backup_${today()}.json`;
+  if (downloadsApi) {
+    try {
+      await downloadsApi.save({ filename, data: payload });
+    } catch (err) {
+      if (err && err.code === "declined") return;
+      alert("The backup could not be saved. Please try again.");
+    }
+    return;
+  }
+  // Standard browser download (used when the page is hosted outside Claude, e.g. GitHub Pages)
+  const url = URL.createObjectURL(new Blob([payload], { type: "application/json" }));
+  const a = document.createElement("a");
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+$("#restoreBtn").addEventListener("click", () => $("#restoreFile").click());
+
+$("#restoreFile").addEventListener("change", async e => {
+  const file = e.target.files[0];
+  e.target.value = "";
+  if (!file) return;
+  let parsed;
+  try {
+    parsed = JSON.parse(await file.text());
+  } catch (err) {
+    alert("That file is not a valid backup.");
+    return;
+  }
+  const data = parsed && parsed.app === "thudzamendes-fitness" ? parsed.data : null;
+  if (!data || !Array.isArray(data.members) || !Array.isArray(data.payments)) {
+    alert("That file is not a Thudzamendes Fitness backup.");
+    return;
+  }
+  if (!confirm(`Restore this backup? It contains ${data.members.length} members and ${data.payments.length} payments, and will replace the current data on this page.`)) return;
+  db = { members: data.members, payments: data.payments };
+  save();
+  render();
+  alert("Backup restored.");
+});
+
+render();
+</script>
+</body>
+</html>
