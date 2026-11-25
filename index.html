@@ -143,6 +143,10 @@ td.actions button { margin-left: 6px; }
 
 footer { text-align: center; color: var(--muted); font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; padding: 8px 0 24px; }
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#17150f">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body>
 
@@ -423,6 +427,9 @@ $("#restoreFile").addEventListener("change", async e => {
 });
 
 render();
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+}
 </script>
 </body>
 </html>
